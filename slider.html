@@ -1,0 +1,114 @@
+<!Doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FORECAST SLIDER</title>
+<style>
+
+.carousel-indicators li {
+    background: #ccc;
+}
+
+.carousel-indicators .active {
+    background: #666;
+}
+
+div.c-wrapper{
+    height: 80%; /* for example */
+    margin: auto;
+}
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img{
+   margin:auto;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+
+<div class="carousel-inner">        
+
+<div class="item active" style="height:50%">
+<img src="weather.jpg" >
+<div class="carousel-caption d-none d-md-block">
+<h1 style="color:black">CURRENT WEATHER</h1>
+<h2 id="cw1" style="color:red"></h2>
+<h3 id="cw2" style="color:blue"></h3>
+</div>
+</div>
+
+
+<div class="item">
+<img src="Traffic1.jpg" >
+</div>
+
+<div class="item">
+<img src="AllSports.jpg">
+</div>
+
+</div> 
+
+<!-- Left and right controls -->
+
+<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+<span class="glyphicon glyphicon-chevron-left"></span>
+<span class="sr-only">Vorherige</span>
+</a>
+
+<a class="right carousel-control" href="#myCarousel" data-slide="next">
+<span class="glyphicon glyphicon-chevron-right"></span>
+<span class="sr-only">Nächste</span>
+</a>
+
+</div>
+</div>
+</div> 
+
+<script type="text/javascript">
+
+
+ $(document).ready(function() {
+  $.ajax({
+		 type:"GET",
+		 url:"https://api.openweathermap.org/data/2.5/weather?q=Frankfurt am Main,de&APPID=a3319418504a936d38183ccbc6d1fddb&units=metric",
+		dataType : "jsonp",
+		accept:"jsonp",
+		cache:true,
+		mimeType:'application/jsonp',
+		beforeSend: function(xhr) {  
+		            xhr.setRequestHeader("Accept", "application/jsonp");  
+		            xhr.setRequestHeader("Content-Type", "application/jsonp"); 
+                    xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+					
+		}, 
+		 success:function(data){
+		 console.log(data["weather"][0]["description"] );
+		    document.getElementById("cw1").innerText= "Weather Description: "+ data["weather"][0]["description"] ;
+			document.getElementById("cw2").innerText="Temp: "+data["main"]["temp"] +", Max: "+data["main"]["temp_max"] +", Min: "+data["main"]["temp_min"]+", Humidity: "+data["main"]["humidity"]  ;			
+			
+		 },
+		 });
+ })
+
+               
+
+</script>
+
+</body>
+</html>
